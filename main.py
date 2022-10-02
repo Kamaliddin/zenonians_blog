@@ -143,15 +143,15 @@ def new():
         title = request.form.get("title")
         subtitle = request.form.get("subtitle")
         img_url = request.form.get("img_url")
-        body = request.form.get("body")
         date = datetime.datetime.now().strftime("%B %d, %Y")
+        body = request.form.get("body")
         post = BlogPost(
             title=title,
             subtitle=subtitle,
             img_url=img_url,
             author_id=current_user.id,
-            body=body,
             date=date,
+            body=body,
         )
         db.session.add(post)
         db.session.commit()
