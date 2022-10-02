@@ -31,8 +31,8 @@ gravatar = Gravatar(app,
 
 ##CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///posts.db")
-app.config['SQLALCHEMY_BINDS'] = {"users": "sqlite:///users.db",
-                                  "comments": "sqlite:///comments.db"}
+app.config['SQLALCHEMY_BINDS'] = {"users": os.environ.get("HEROKU_POSTGRESQL_AMBER_URL", "sqlite:///users.db"),
+                                  "comments": os.environ.get("HEROKU_POSTGRESQL_AQUA_URL", "sqlite:///comments.db")}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
