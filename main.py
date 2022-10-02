@@ -64,7 +64,7 @@ class BlogPost(db.Model):
     title = db.Column(db.String(250), unique=True, nullable=False)
     subtitle = db.Column(db.String(250), nullable=False)
     date = db.Column(db.String(250), nullable=False)
-    body = db.Column(db.Text(3000), nullable=False)
+    body = db.Column(db.Text(3000), nullable=False, max_length=25000)
     # author = db.Column(db.String(250), nullable=False)
     img_url = db.Column(db.String(550), nullable=False)
 db.create_all()
