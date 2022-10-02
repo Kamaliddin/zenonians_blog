@@ -1,0 +1,66 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{post.img_url}}')">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+				<div class="post-heading">
+					<h1>{{post.title}}</h1>
+					<h2 class="subheading">{{post.subtitle}}</h2>
+					<span class="meta">Posted by
+              <a href="#">{{ post.author.name }}</a>
+              on {{post.date}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <p>
+                {{ post.body | safe() }}
+            </p>
+            <hr>
+            {% if current_user.id == 1 %}
+            <div class="clearfix">
+                <a class="btn btn-primary float-right" href="{{ url_for('edit', post_id=post.id) }}">Edit Post</a>
+            </div>
+            {% endif %}
+            {% if current_user.id !=1 %}
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name='body') }}
+                {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+            {% endif %}
+            <hr>
+            {% for comment in post.comments %}
+                <ul class="commentList" style="list-style: none; padding-left: 0;">
+                    <li style="display: flex;">
+                        <div class="commenterImage" style="display: flex;align-items: center;justify-content: center;">
+                            <img style="border-radius: 50%; width:70px; height:70px; margin-right:15px;" src="{{ comment.comment_author.email | gravatar(size=70) }}"/>
+                        </div>
+                        <div class="commentText">
+                            {{comment.text|safe}}
+                            <span style="color:gray; font-size:15px;" class="date sub-text">{{comment.comment_author.name}}</span>
+                        </div>
+                    </li>
+                    <hr>
+                </ul>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+{% include "footer.html" %}
+{% endblock %}
