@@ -16,7 +16,7 @@ import os
 Base = declarative_base()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "8BYkEfBA6O6donzWlSihBXox7C0sKR6b")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
@@ -79,7 +79,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
 
-db.create_all(bind=["users"])
+db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
