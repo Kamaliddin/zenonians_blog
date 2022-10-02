@@ -49,6 +49,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100), nullable=False)
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
+db.create_all()
 
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -66,6 +67,7 @@ class BlogPost(db.Model):
     body = db.Column(db.Text, nullable=False)
     # author = db.Column(db.String(250), nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
+db.create_all()
 
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -79,7 +81,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
 
-db.create_all(bind=["comments"])
+db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
